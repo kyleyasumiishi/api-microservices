@@ -1,0 +1,52 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    meta(name='description', content='FreeCodeCamp API and Microservice Projects')
+    meta(name='author', content='Kyle Yasumiishi')
+    title= title
+
+    // Bootstrap core CSS
+    link(rel='stylesheet', href='/vendor/bootstrap/css/bootstrap.min.css')
+
+    // Custom styles for this template
+    link(rel='stylesheet', href='/stylesheets/style.css')
+
+  body
+    div(id='wrapper')
+      
+      // Sidebar
+      div(id='sidebar-wrapper')
+        ul(class='sidebar-nav')
+          li(class='sidebar-brand')
+            a(href='/') Home
+          li
+            a(href='#') Timestamp
+          li
+            a(href='#') Request Header Parser
+          li
+            a(href='#') URL Shortener
+          li
+            a(href='#') Exercise Tracker
+          li
+            a(href='#') File Metadata
+          li
+            a(href='#') Login
+          li
+            a(href='#') About
+
+      // Page Content
+      // Make sure to keep all page content within the #page-content-wrapper
+      div(id='page-content-wrapper')
+        div(class='container-fluid')
+          a(href='#menu-toggle', class='btn btn-secondary', id='menu-toggle') Toggle Menu
+
+          block content
+
+    // Bootstrap core JavaScript
+    script(src='/vendor/jquery/jquery.min.js')
+    script(src='/vendor/bootstrap/js/bootstrap.bundle.min.js')
+
+    // Menu 
+    script(src='/javascripts/menutoggle.js')  
