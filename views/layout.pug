@@ -21,20 +21,22 @@ html
         ul(class='sidebar-nav')
           li(class='sidebar-brand')
             a(href='/') Home
-          li
-            a(href='#') Timestamp
-          li
-            a(href='#') Request Header Parser
-          li
-            a(href='#') URL Shortener
-          li
-            a(href='#') Exercise Tracker
-          li
-            a(href='#') File Metadata
-          li
-            a(href='#') Login
-          li
-            a(href='#') About
+          
+          block sidebar
+            li
+              a(href='#') Timestamp
+            li
+              a(href='#') Request Header Parser
+            li
+              a(href='#') URL Shortener
+            li
+              a(href='#') Exercise Tracker
+            li
+              a(href='#') File Metadata
+            li
+              a(href='#') Login
+            li
+              a(href='#') About
 
       // Page Content
       // Make sure to keep all page content within the #page-content-wrapper
