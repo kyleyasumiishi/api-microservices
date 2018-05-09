@@ -6,4 +6,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'API and Microservice Projects' });
 });
 
+router.get('/about', function(req, res, next) {
+  res.render('about', { title: 'About' });
+})
+
 module.exports = router;
