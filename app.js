@@ -1,7 +1,10 @@
-const createError = require('http-errors');
 const express = require('express');
+const mongoose = require('mongoose');
 const path = require('path');
+const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const flash = require('connect-flash');
 const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
@@ -10,9 +13,7 @@ const apiRouter = require('./routes/api');
 
 const app = express();
 
-
 // Set up mongoose connection
-const mongoose = require('mongoose');
 const dev_db_url = 'mongodb://admin:admin@ds115360.mlab.com:15360/api-microservice'
 const mongoDB = process.env.MONGODB_URL || dev_db_url;
 mongoose.connect(mongoDB);
