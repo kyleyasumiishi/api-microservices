@@ -6,53 +6,57 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
 const logger = require('morgan');
+const createError = require('http-errors');
+const config = require('./models/config');
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const apiRouter = require('./routes/api');
+// Import routes 
+const routes = require('./routes/routes');
 
+// Create Express application
 const app = express();
 
 // Set up mongoose connection
-const dev_db_url = 'mongodb://admin:admin@ds115360.mlab.com:15360/api-microservice'
-const mongoDB = process.env.MONGODB_URL || dev_db_url;
+const dbUrl = config.dbUrl;
+const mongoDB = process.env.MONGODB_URL || dbUrl;
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
+// Set application settings
 app.set('port', process.env.PORT || 3000);
-
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// Mount middleware
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: config.secret,
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(flash());
+app.use(routes);
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/api', apiRouter);
-
-// catch 404 and forward to error handler
+// Catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
+// Error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
+  // Set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
+  res.locals.err = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500);
   res.render('error');
 });
 
+// Listen for connections
 app.listen(app.get('port'), () => {
   console.log('Server started on port ' + app.get('port'));
 });
