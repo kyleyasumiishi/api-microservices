@@ -23,8 +23,12 @@ router.get('/about', function(req, res, next) {
   });
 
 // Users routes
-router.get('/users/:id', function(req, res, next) {
-    console.log('user profiles to come soon...');
+router.get('/users/:username', function(req, res, next) {
+    User.findOne({ username: req.params.username }, function(err, user) {
+        if (err) return next(err);
+        if (!user) return next(404);
+        res.render('profile', { user: user });
+    });
 });
 
 router.get('/users', function(req, res, next) {
