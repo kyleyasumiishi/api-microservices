@@ -1,19 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const users = require('../controllers/users');
-
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  // if logged in
-
-  // else
-  res.render('login', { title: 'Login' });
-  // res.render('users', { title: 'Sign Up' });
-});
+const auth = require('../controllers/auth');
 
 router.get('/signup', function(req, res, next) {
   res.render('signup', { title: 'Sign Up' });
 })
+router.post('/signup', users.createUser);
+
+router.get('/login', function(req, res, next) {
+  res.render('login', { title: 'Login' });
+})
+router.post('/login', auth.loginUser);
+
+
 
 // create - this will be integrated into signup once auth created
 router.route('/test')
