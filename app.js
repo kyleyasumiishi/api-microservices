@@ -20,6 +20,8 @@ mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
+app.set('port', process.env.PORT || 3000);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -48,6 +50,10 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+app.listen(app.get('port'), () => {
+  console.log('Server started on port ' + app.get('port'));
 });
 
 module.exports = app;
