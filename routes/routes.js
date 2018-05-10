@@ -2,6 +2,7 @@ const express = require('express');
 const User = require('../models/schemas/user');
 const users = require('../controllers/users');
 const router = express.Router();
+const passport = require('passport');
 
 // Set useful variables for view templates rendered
 router.use(function(req, res, next) {
@@ -34,6 +35,31 @@ router.get('/users', function(req, res, next) {
 router.get('/signup', function(req, res, next) {
     res.render('signup', { title: 'Sign Up' });
 });
+
+router.post('/signup', function(req, res, next) {
+    let username = req.body.username;
+    let password = req.body.password;
+
+    User.findOne({ username: username }, function(err, user) {
+        if (err) {
+            console.log('The error is: ' + err);
+            return next(err);
+        }
+        if (user) {
+            req.flash('error', 'User already exists');
+        }
+
+        let newUser = new User({
+            username: username,
+            password: password
+        });
+        newUser.save(next);
+    })
+}, passport.authenticate('login', {
+    successRedirect: '/',
+    failureRedirect: '/signup',
+    failureFlash: true
+}));
 
 router.get('/login', function(req, res, next) {
     res.render('login', { title: 'Login' });

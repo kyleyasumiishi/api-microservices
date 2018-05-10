@@ -34,10 +34,10 @@ html
             li
               a(href='/api/filemetadata') File Metadata
             li
-              if token
-                a(href='/users/profile') My Account
+              if currentUser
+                a(href=currentUser.url) My Account
               else
-                a(href='/users/login') Login
+                a(href='/login') Login
             li
               a(href='/about') About
 
