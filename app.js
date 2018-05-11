@@ -8,9 +8,11 @@ const flash = require('connect-flash');
 const logger = require('morgan');
 const createError = require('http-errors');
 const config = require('./models/config');
+const passport = require('passport');
 
-// Import routes 
+// Import routes and require Passport setup
 const routes = require('./routes/routes');
+const setUpPassport = require('./controllers/setuppassport');
 
 // Create Express application
 const app = express();
@@ -22,6 +24,9 @@ mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+// Use Passport setup to serialize and deserialize users
+setUpPassport();
 
 // Set application settings
 app.set('port', process.env.PORT || 3000);
@@ -40,21 +45,23 @@ app.use(session({
   saveUninitialized: true
 }));
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(routes);
 
 // Catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+// app.use(function(req, res, next) {
+//   next(createError(404));
+// });
 
-// Error handler
-app.use(function(err, req, res, next) {
-  // Set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.err = req.app.get('env') === 'development' ? err : {};
-  res.status(err.status || 500);
-  res.render('error');
-});
+// // Error handler
+// app.use(function(err, req, res, next) {
+//   // Set locals, only providing error in development
+//   res.locals.message = err.message;
+//   res.locals.err = req.app.get('env') === 'development' ? err : {};
+//   res.status(err.status || 500);
+//   res.render('error');
+// });
 
 // Listen for connections
 app.listen(app.get('port'), () => {

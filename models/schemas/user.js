@@ -40,10 +40,9 @@ userSchema.pre('save', function(done) {
 });
 
 // Method for validating password
-userSchema.methods.comparePassword = function(pw, callback) {
-    bcrypt.compare(pw, this.hash, function(err, isMatch) {
-        if (err) return callback(err);
-        callback(null, isMatch);
+userSchema.methods.comparePassword = function(pw, done) {
+    bcrypt.compare(pw, this.password, function(err, isMatch) {
+        done(err, isMatch);
     });
 };
 

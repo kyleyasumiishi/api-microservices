@@ -1,8 +1,25 @@
 extends layout
 
 block content
+
     h1= title
 
+    h2= message
     h2 Hello #{user.name()}
-    p You have successfully logged in!
     
+    form(method='POST')
+        div.form-group
+            label(for='username') Username:
+            input#username.form-control(type='text', name='username', required='true')
+        div.form-group
+            label(for='email') Email:
+            input#email.form-control(type='email', name='email', required='true')
+        div.form-group
+            label(for='password') Password:
+            input#password.form-control(type='password', name='password', required='true')
+        button.btn.btn-primary(type='submit') Update Account Info
+
+    form(method='GET' action='/logout')
+        button.btn.btn-primary(type='submit') Logout
+    
+    a(href=user.url+'/delete') Delete Account
