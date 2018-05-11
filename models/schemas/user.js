@@ -6,8 +6,7 @@ const SALT_FACTOR = 10;
 const userSchema = mongoose.Schema({
     username: {type: String, required: true, unique: true},
     password: {type: String, required: true},
-    email: {type: String, unique: true},
-    displayName: String
+    email: {type: String, unique: true}
 });
 
 // Virtual for user's URL
@@ -17,7 +16,7 @@ userSchema.virtual('url').get(function() {
 
 // Get user's name
 userSchema.methods.name = function() {
-    return this.displayName || this.username;
+    return this.username;
 };
 
 // Pre-save action to hash password
@@ -30,7 +29,6 @@ userSchema.pre('save', function(done) {
         if (err) return done(err);
         bcrypt.hash(user.password, salt, () => {}, function(err, hashedPassword) {
             if (err) {
-                console.log('I am the error: ' + err);
                 return done(err);
             }
             user.password = hashedPassword;
